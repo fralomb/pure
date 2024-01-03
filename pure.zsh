@@ -145,7 +145,7 @@ prompt_pure_preprompt_render() {
 	# Git branch and dirty status info.
 	typeset -gA prompt_pure_vcs_info
 	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
-		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[branch]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
+		preprompt_parts+=('on'"%F{$git_color}"' ${prompt_pure_vcs_info[branch]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
 	fi
 	# Git action (for example, merge).
 	if [[ -n $prompt_pure_vcs_info[action] ]]; then
@@ -161,7 +161,7 @@ prompt_pure_preprompt_render() {
 	fi
 
 	# Execution time.
-	[[ -n $prompt_pure_cmd_exec_time ]] && preprompt_parts+=('%F{$prompt_pure_colors[execution_time]}${prompt_pure_cmd_exec_time}%f')
+	[[ -n $prompt_pure_cmd_exec_time ]] && preprompt_parts+=('%F{$prompt_pure_colors[execution_time]} Took: ${prompt_pure_cmd_exec_time}%f')
 
 	local cleaned_ps1=$PROMPT
 	local -H MATCH MBEGIN MEND
@@ -574,7 +574,7 @@ prompt_pure_async_callback() {
 			if (( code == 0 )); then
 				unset prompt_pure_git_dirty
 			else
-				typeset -g prompt_pure_git_dirty="*"
+				typeset -g prompt_pure_git_dirty=" ✗ "
 			fi
 
 			[[ $prev_dirty != $prompt_pure_git_dirty ]] && do_render=1
